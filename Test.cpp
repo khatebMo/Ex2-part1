@@ -63,13 +63,13 @@ TEST_CASE("test game"){
     Player p2("nati");
     Game game(p1,p2); 
     CHECK_NOTHROW(game.playAll());
-    CHECK_EQ(p1.stacksize(), 0);
-    CHECK_EQ(p2.stacksize(), 0);
     CHECK_GE(p1.cardesTaken(),0);
     CHECK_GE(p2.cardesTaken(),0);
     CHECK_NOTHROW(game.printWiner());
     CHECK_NOTHROW(game.printLog());
     CHECK_NOTHROW(game.printStats());
+    CHECK_EQ(p1.stacksize(), 0);
+    CHECK_EQ(p2.stacksize(), 0);
 
 }
 
