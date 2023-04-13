@@ -4,24 +4,34 @@
 #include <stdio.h>
 #include <stack>
 #include "card.hpp"
+#include <vector>
 using namespace std;
-namespace ariel{};
+namespace ariel
+{
+};
 using namespace ariel;
 
 class Player
-{ 
- string name;
-    private:
-        int NumOfCardWin;
-        stack <Card> AllCards; 
-    
-    public:
-        int stacksize();
-        int cardesTaken();
-        Player(string name);
-        Player();
-    
-};
+{
 
+private:
+    string name;
+    int NumOfCardWin;
+   
+    int numOfWins;
+    int gamesPlayed;
+
+public:
+     vector<Card> hand;
+    int numOfDraws;
+    vector<Card> cardsWin;
+    Player(const string &name);
+    Player();
+    int stacksize();
+    int cardesTaken();
+    double getWinRate();
+    string getName();
+    Card throwCard();
+};
 
 #endif

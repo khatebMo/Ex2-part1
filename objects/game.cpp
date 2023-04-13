@@ -1,4 +1,4 @@
-#include "game.hpp";
+#include "sources/game.hpp";
 #include "player.hpp""
 using namespace std;
 using namespace ariel;
@@ -7,7 +7,7 @@ namespace ariel{};
     Game::Game(){
 
     }
-    Game::Game (Player const &p1, Player const &p2){
+    Game::Game (Player p1, Player p2){
         this->p1=p1;
         this->p2=p2;
 
