@@ -4,23 +4,25 @@
 #include "player.hpp"
 
 // using namespace std;
-// namespace ariel{};
+// 
 // using namespace ariel;
-class Game
-{
+namespace ariel{
+ class Game
+ {
 
     private:
-        Player p1;
-        Player p2;
+        Player &p1;
+        Player &p2;
         vector<Card> table;
-        vector<string> turns;
+        string log;
         string lastTurn;
         string winner;
         vector<Card> deck;
         void shuffling();
+        int numOfDraw;
+        string theWinner;
     public:
-        Game();
-        Game(Player &p1,Player &p2);
+        Game(Player &player1,Player &player2);
         void playTurn();
         void printLastTurn();
         void playAll();
@@ -28,6 +30,7 @@ class Game
         void printLog();
         void printStats();
         string convert(int n);
-};
-
+        int getNumOfDraw();
+ };
+}
 #endif

@@ -1,9 +1,9 @@
 #include "player.hpp"
 
-using namespace ariel;
+namespace ariel{
 
 
-Player::Player(const string &name){
+Player::Player(const char* name){
   this->name=name;
 }
 Player::Player(){}
@@ -31,9 +31,21 @@ Card Player::throwCard(){
 string Player::getName(){
   return name;
 }
+vector<Card> Player :: getHand(){
+  return this->hand;
+}
+ vector<Card> Player :: getCardWin(){
+  return this->cardsWin;
 
+ }
+ void Player::setHand(Card &card){
+  this->hand.push_back(card);
+ }
+ void Player::setCardWin(Card &card){
+  this->cardsWin.push_back(card);
+ }
 
     
-
+}
 
 

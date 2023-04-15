@@ -2,7 +2,7 @@
 #define CARD_HPP
 #include <iostream>
 using namespace std;
-
+namespace ariel{
 
 class Card{
     private:
@@ -10,11 +10,11 @@ class Card{
       string type;
     public:
         Card(string value,string type);
-       // Card();
+        Card();
         int getValue();
         string getType();
         string getValueString();
 };
 
-
+}
 #endif

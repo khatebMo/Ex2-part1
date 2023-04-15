@@ -1,90 +1,115 @@
 #include "game.hpp"
 #include "player.hpp"
 #include <algorithm>
+#include <random>
 using namespace std;
-namespace ariel{};
+namespace ariel{
+Game::Game (Player &player1, Player &player2):p1(player1),p2(player2){
 
-Game::Game(){
-
-}
-Game::Game (Player &p1, Player &p2){
     int j=4;
     string shape;
-    this->p1=p1;
-    this->p2=p2;
     while (j>0)
     {
         if(j==4)shape="Hearts";
         if(j==3)shape="Spades";
         if(j==2)shape="Clubs";
         if(j==1)shape="Diamonds"; 
-        for(int i=1;i<=13;i++){
-        deck.push_back(Card(convert(i),shape));        
+        for(int i=2;i<=14;i++){
+        this->deck.push_back(Card(convert(i),shape));        
         }
         j--;
 
     }
-    this->shuffling();
-    
-    if (p1.stacksize()!=26||p2.stacksize()!=26)
-    {
-        throw"error!";
+    for(Card c:deck){
+        cout<<c.getValue()<<c.getType()<<endl;
     }
-    //p1.stacksize()=0;
+    this->shuffling();
+
 
 
 }
 void Game::playAll(){
-   
+    while (p1.stacksize()!=0||p2.stacksize()!=0)
+    {
+        playTurn();
+    }
     
-
 }
 void Game::playTurn(){
+    if (p1.stacksize()==0||p2.stacksize()==0)
+    {
+        throw "the game is over";
+    }
     
-    
+    if (&p1==&p2)
+    {
+        throw "this is the same player!!";
+    }    
     Card p1Card=this->p1.throwCard();
     Card p2Card=this->p2.throwCard();
     table.push_back(p2Card);
     table.push_back(p1Card);
     if(p1Card.getValue()>p2Card.getValue()){
-        // p1.cardsWin.push_back(p1Card);
-        // p1.cardsWin.push_back(p2Card);
-        p1.cardsWin.insert(p1.cardsWin.end(), table.begin(), table.end());
+        for(Card c:table){
+        p1.setCardWin(c);
+        }
         table.clear();
         this->winner=p1.getName();
-        lastTurn=p1.getName()+"play"+p1Card.getValueString()+"of"+p1Card.getType()+p2.getName()+"play"+p2Card.getValueString()+"of"+p2Card.getType()+winner+"win";
+        lastTurn=p1.getName()+" play "+p1Card.getValueString()+" of "+p1Card.getType()+" "+p2.getName()+" play "+p2Card.getValueString()+" of "+p2Card.getType()+" "+winner+" win\n";
+        log+=lastTurn;
     }
     else if(p1Card.getValue()<p2Card.getValue()){
-        // p2.cardsWin.push_back(p1Card);
-        // p2.cardsWin.push_back(p2Card);
-        p2.cardsWin.insert(p2.cardsWin.end(), table.begin(), table.end());
+        for(Card c:table){
+        p2.setCardWin(c);
+        }
         table.clear();
         this->winner=p2.getName();
-        lastTurn=p1.getName()+"play"+p1Card.getValueString()+"of"+p1Card.getType()+p2.getName()+"play"+p2Card.getValueString()+"of"+p2Card.getType()+winner+"win";
-    }
+        lastTurn=p1.getName()+" play "+p1Card.getValueString()+" of "+p1Card.getType()+" "+p2.getName()+" play "+p2Card.getValueString()+" of "+p2Card.getType()+" "+winner+" win\n";
+        log+=lastTurn;    
+        }
     else{
-        p1.numOfDraws++;
-        p2.numOfDraws++;
-        lastTurn=p1.getName()+"play"+p1Card.getValueString()+"of"+p1Card.getType()+p2.getName()+"play"+p2Card.getValueString()+"of"+p2Card.getType()+"draw";
+        lastTurn=p1.getName()+"  play "+p1Card.getValueString()+"  of "+p1Card.getType()+"  "+p2.getName()+"  play "+p2Card.getValueString()+"  of"+p2Card.getType()+"draw ";
         table.push_back(p1.throwCard());
         table.push_back(p2.throwCard());
-        playTurn();
+        log+=lastTurn;
+        if(p1.stacksize()==1&&p2.stacksize()){
+            p2.setCardWin(table.back());
+            table.pop_back();
+            p1.setCardWin(table.back());
+            table.pop_back();
+
+        }
+        if(p1.stacksize()>1||p2.stacksize()>1){
+            playTurn();
+        }
     }
 
 
 }
 void Game::printLastTurn(){
-    cout<<lastTurn;
+
+    cout<<lastTurn<<endl;
 
 }
 void Game::printLog(){
+   cout<<log<<endl;
+    
 
 }
 void Game::printStats(){
+    string w1 = to_string(p1.getWinRate());
+    string d1 = to_string(p1.getWinRate());
+    string w2 = to_string(p2.getWinRate());
+    string d2 = to_string(p2.getWinRate());
+    
+    string numOfDraws1;
+    cout<<"{ "+p1.getName()+" win rate is: "+w1+ " heeeee" +"draw rate is: "+d1+"he draws "+numOfDraws1+"times"
+    +p2.getName()+" win rate is: "+w2+ " heeeee" +"draw rate is: "+d2+"he draws "+"times" +"}"<< endl;
 
 }
 void Game::printWiner(){
-    cout<<winner;
+    this->theWinner="adnan";
+    cout<<theWinner<<endl;
     
 }
 string Game::convert(int n){
@@ -93,7 +118,7 @@ string Game::convert(int n){
         throw "incurruct input";
     }
     
-    if (n==1)
+    if (n==14)
     {
         return "Ace";
     }
@@ -147,19 +172,25 @@ string Game::convert(int n){
     throw"incurrct input";
 }
 void Game::shuffling(){
-     int count=0;
-     unsigned int index;
-     
-     for (int i=1;i<27;i++)
-     {
-       index = (int)rand() % (52 - count);
-       count++;
-       swap(deck[index],deck[deck.size()-2]);
-        p1.hand.push_back(deck.back());
-       
-     }
-     p2.hand.insert(p2.hand.begin(),deck.begin(),deck.end());
-      
-     
+    random_device r;
+    mt19937 f(r());
+    shuffle(this->deck.begin(),this->deck.end(),f);
+    for (size_t i = 0; i < 52; i++)
+    {
+        if (i%2==1)
+        {
+            this->p1.setHand(deck[i]);
+        }
+        else{
+            this->p2.setHand(deck[i]);
+        }
+        
+    }
+    
+}
+int Game::getNumOfDraw(){
+    return this->numOfDraw;
+
 }
 
+}

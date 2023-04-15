@@ -1,5 +1,7 @@
 #include "card.hpp"
 using namespace std;
+namespace ariel{
+Card::Card(){}
 Card::Card(string value,string type){
     this->type=type;
     this->value=value;
@@ -10,7 +12,7 @@ string Card::getType(){
 int Card::getValue(){
     if (this->value=="Ace")
     {
-        return 1;
+        return 14;
     }
     if (this->value=="Two")
     {
@@ -64,4 +66,4 @@ int Card::getValue(){
 string Card::getValueString(){
     return value;
 }
-
+}
