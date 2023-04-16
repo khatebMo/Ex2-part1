@@ -6,7 +6,10 @@ namespace ariel{
 
     Game::Game(Player &player1,Player &player2):p1(player1),p2(player2){
         this->numOfDraw = 0;
+        this->rounds=0;
         this->isDone = false;
+        p1.play();
+        p2.play();
 
         int j=4;
         string shape;
@@ -40,7 +43,8 @@ namespace ariel{
         }
     }
 
-    void Game::playTurn(){
+    void Game::playTurn(){  
+        this->rounds++;
         if(isDone){
             throw ("the game is over");
             return;
@@ -63,6 +67,7 @@ namespace ariel{
             if(p1Card.getValue()==2 && p2Card.getValue()==14){
                 for(Card c:table){
                     p1.setCardWin(c);
+                    p1.winCard();
                 }
                 table.clear();
                 this->winner=p1.getName();
@@ -72,6 +77,7 @@ namespace ariel{
             else if(p1Card.getValue()==14 && p2Card.getValue()==2){
                 for(Card c:table){
                     p2.setCardWin(c);
+                    p2.winCard();
                 }
                 table.clear();
                 this->winner=p2.getName();
@@ -81,6 +87,7 @@ namespace ariel{
             else if(p1Card.getValue()>p2Card.getValue()){
                 for(Card c:table){
                     p1.setCardWin(c);
+                    p1.winCard();
                 }
                 table.clear();
                 this->winner=p1.getName();
@@ -90,6 +97,7 @@ namespace ariel{
             else if(p1Card.getValue()<p2Card.getValue()){
                 for(Card c:table){
                     p2.setCardWin(c);
+                    p2.winCard();
                 }
                 table.clear();
                 this->winner=p2.getName();
@@ -99,6 +107,7 @@ namespace ariel{
             else{
                 lastTurn=p1.getName()+"  play "+p1Card.getValueString()+"  of "+p1Card.getType()+"  "+p2.getName()+"  play "+p2Card.getValueString()+"  of "+p2Card.getType()+" draw ";
                 numOfDraw++;
+                rounds+=2;
                 table.push_back(p1.throwCard());
                 table.push_back(p2.throwCard());
                 log+=lastTurn;
@@ -119,7 +128,7 @@ namespace ariel{
                     p2.setCardWin(p2Card);
                 }
                 
-                if(p1.stacksize()>1||p2.stacksize()>1){
+                if(p1.stacksize()>1 && p2.stacksize()>1){
                    playTurn();
                 }
             }
@@ -141,9 +150,11 @@ namespace ariel{
         if (this->p1.stacksize() == 0 && this->p2.stacksize() == 0){
             if (this->p1.cardesTaken() > this->p2.stacksize()){
                 this->theWinner=p1.getName();
+                p1.winCard();
             }
             else if (this->p2.cardesTaken() < this->p1.cardesTaken()){
-                this->theWinner=p2.getName();   
+                this->theWinner=p2.getName();
+                p2.winCard();   
             }
             cout << this->theWinner+" won's this game!" << endl;
         }
@@ -154,21 +165,35 @@ namespace ariel{
     }
 
     void Game::printStats(){
-    // cout << this->p1.getName() << ": \n";
-    // cout << "Win rate = " << to_string(this->p1.getWinRate()) << "%\n";
-    // cout << "Cards won = " << to_string(this->p1.getCardWin().size()) << " Cards \n";
-    // cout << "Draw rate = " << p1.getDrawRate() << "%\n";
-    // cout << "Draws = " << this->getNumOfDraw() << " Draws\n";
-    // cout << this->p2.getName() << ": \n";
-    // cout << "Win rate = " << to_string(this->p2.getWinRate()) << "%\n";
-    // cout << "Cards won = " << this->p2.getCardWin().size() << " Cards \n";
-    // cout << "Draw rate = " << this->p2.getDrawRate() << "%\n";
-    // cout << "Draws = " << this->getNumOfDraw() << " Draws\n";
+        string temp1=state(p1);
+        string temp2=state(p2);
+        cout<<temp1<<endl;
+        cout<<temp2<<endl;
     }
 
     
     int Game::getNumOfDraw(){
         return this->numOfDraw;
     }
+     string Game:: drawRate(Player &player){
+        double rate=(numOfDraw/this->rounds)*100;
+        string str=to_string(rate);
+        return str;
+
+     }
+    int Game:: winRate(Player &player){
+        int temp=player.cardesTaken()/2;
+        int rate=(temp/(1*rounds))*100;
+        return rate;
+        
+
+    }
+    string Game::state(Player &player){
+        string str="{\n"+player.getName()+" win rate is: "+ to_string((double)winRate(player))+
+        "amount of rounds:" + to_string(rounds)
+         +" he won's "+to_string(player.cardesTaken()/2)+ " cards "
+        +" draw rate is: "+ drawRate(player)+" he draws "+to_string(numOfDraw)+" times \n"+"}";
+        return str;
+    }   
 }
 

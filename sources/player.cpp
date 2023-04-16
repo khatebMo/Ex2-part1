@@ -36,12 +36,8 @@ namespace ariel{
     return this->cardsWin.size();
   }
 
-  double Player::getWinRate(){
-    double winRate=(this->numOfWins/this->gamesPlayed)*100;
-    return winRate;
-  }
-  void Player::win(){
-    this->numOfWins++;
+  void Player::play(){
+    this->gamesPlayed++;
   }
 
   
@@ -51,12 +47,25 @@ namespace ariel{
     this->hand.pop_back();
     return card;
   }
-  int Player::getNumOfWin(){
-    return this->numOfWins;
-  }
+  // int Player::getNumOfWin(){
+  //   return this->numOfWins;
+  // }
   int Player::getRounds(){
     return gamesPlayed;
   }
+  // string Player::getState(){
+  //   return state;
+  // }
+  // void Player::setState(){
+  //   this->state=this->getName()+" win's rate is: " + to_string(this->getWinRate()) + "\n"+"He won's"+to_string(this->NumOfCardWin)+
+  //   "cards";
+
+  //}
+  void Player::winCard(){
+    this->NumOfCardWin++;
+  }
+ 
+
 }
 
 

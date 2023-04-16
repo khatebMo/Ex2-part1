@@ -19,7 +19,8 @@ namespace ariel{
         int numOfDraw;
         string theWinner;
         bool isDone;
-
+        int rounds;
+    
     public:
         Game(Player &player1,Player &player2);
         void playTurn();
@@ -29,6 +30,9 @@ namespace ariel{
         void printLog();
         void printStats();    
         int getNumOfDraw();
-        string helpState(Player &player);
+        string drawRate(Player &player);
+        int winRate(Player &player);
+        string state(Player &player);
+       
  };
 }

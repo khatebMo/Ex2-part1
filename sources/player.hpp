@@ -6,11 +6,9 @@
 namespace ariel{
     class Player
     {
-
         private:
             string name;
             int NumOfCardWin;
-            int numOfWins;
             int gamesPlayed;
             vector<Card> hand;
             vector<Card> cardsWin;
@@ -23,13 +21,13 @@ namespace ariel{
             void setHand(Card &card);
             void setCardWin(Card &card);
             int stacksize();
-            int cardesTaken();
-            double getWinRate();
-            double getDrawRate();
+            int cardesTaken(); 
             string getName();
             Card throwCard();
-            void win();
             int getNumOfWin();
             int getRounds();
+            
+            void play();
+            void winCard();
     };
 }
