@@ -1,11 +1,8 @@
-#ifndef GAME
-#define GAME
+#pragma once
 
 #include "player.hpp"
 
-// using namespace std;
-// 
-// using namespace ariel;
+
 namespace ariel{
  class Game
  {
@@ -21,6 +18,8 @@ namespace ariel{
         void shuffling();
         int numOfDraw;
         string theWinner;
+        bool isDone;
+
     public:
         Game(Player &player1,Player &player2);
         void playTurn();
@@ -28,9 +27,8 @@ namespace ariel{
         void playAll();
         void printWiner();
         void printLog();
-        void printStats();
-        string convert(int n);
+        void printStats();    
         int getNumOfDraw();
+        string helpState(Player &player);
  };
 }
-#endif

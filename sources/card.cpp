@@ -1,69 +1,40 @@
 #include "card.hpp"
 using namespace std;
 namespace ariel{
-Card::Card(){}
-Card::Card(string value,string type){
-    this->type=type;
-    this->value=value;
-}
-string Card::getType(){
-  return this->type;
-}
-int Card::getValue(){
-    if (this->value=="Ace")
-    {
-        return 14;
+
+    Card::Card(){}
+    
+    Card::Card(int value,string type){
+        this->type=type;
+        this->value=value;
     }
-    if (this->value=="Two")
-    {
-        return 2;
+
+    string Card::getType(){
+    return this->type;
     }
-    if (this->value=="Three")
-    {
-        return 3;
+
+    int Card::getValue(){
+        return this->value;
     }
-    if (this->value=="Four")
-    {
-        return 4;
+
+    string Card::getValueString(){
+
+            string str;
+            if(this->getValue() == 14){
+                str = "Ace";
+            }
+            else if(this->getValue() == 13){
+                str = "King";
+            }
+            else if(this->getValue() == 12){
+                str = "Queen";
+            }
+            else if(this->getValue() == 11){
+                str = "Jack";
+            }
+            else{
+                str = to_string(this->value);
+            }
+        return str;
     }
-    if (this->value=="Five")
-    {
-        return 5;
-    }
-    if (this->value=="Six")
-    {
-        return 6;
-    }
-    if (this->value=="Seven")
-    {
-        return 7;
-    }
-    if (this->value=="Eight")
-    {
-        return 8;
-    }if (this->value=="Nine")
-    {
-        return 9;
-    }
-    if (this->value=="Ten")
-    {
-        return 10;
-    }
-    if (this->value=="Jack")
-    {
-        return 11;
-    }
-    if (this->value=="Queen")
-    {
-        return 12;
-    }
-    if (this->value=="King")
-    {
-        return 13;
-    }
-    throw "error!";
-}
-string Card::getValueString(){
-    return value;
-}
 }

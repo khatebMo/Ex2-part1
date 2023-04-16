@@ -1,15 +1,15 @@
-#ifndef CARD_HPP
-#define CARD_HPP
+#pragma once
 #include <iostream>
-using namespace std;
+
 namespace ariel{
+  using namespace std;
 
 class Card{
     private:
-      string value;
+      int value;
       string type;
     public:
-        Card(string value,string type);
+        Card(int value,string type);
         Card();
         int getValue();
         string getType();
@@ -17,4 +17,3 @@ class Card{
 };
 
 }
-#endif
